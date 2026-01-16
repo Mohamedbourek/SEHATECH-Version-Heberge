@@ -1,0 +1,11 @@
+{
+  "uri": "./tiny_face_detector_model.json",
+  "name": "Tiny Face Detector",
+  "layerType": "convolutional",
+  "inputShape": [3, 416, 416],
+  "classPrediction": false,
+  "boxPredictionType": "anchor",
+  "withSegmentation": false,
+  "meanRgb": [0, 0, 0],
+  "version": "1.0.0"
+} 

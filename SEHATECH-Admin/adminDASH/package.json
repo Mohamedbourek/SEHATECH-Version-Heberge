@@ -1,0 +1,44 @@
+{
+  "name": "admin-dash",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@headlessui/vue": "^1.7.x",
+    "@heroicons/vue": "^2.2.0",
+    "@tailwindcss/forms": "^0.5.7",
+    "@vueuse/core": "^10.7.0",
+    "autoprefixer": "^10.4.x",
+    "axios": "^1.7.9",
+    "chart.js": "^4.4.8",
+    "date-fns": "^2.30.x",
+    "echarts": "^5.4.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2",
+    "lodash": "^4.17.21",
+    "lucide-vue-next": "^0.294.0",
+    "papaparse": "^5.4.1",
+    "pinia": "^2.1.7",
+    "pinia-plugin-persistedstate": "^3.2.0",
+    "postcss": "^8.4.x",
+    "qrcode.vue": "^3.6.0",
+    "tailwindcss": "^3.3.x",
+    "vue": "^3.3.x",
+    "vue-chartjs": "^5.3.2",
+    "vue-router": "^4.2.x",
+    "vue-toastification": "^2.0.0-rc.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.5.x",
+    "eslint": "^8.49.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "prettier": "^3.0.3",
+    "vite": "^5.0.x"
+  }
+}
