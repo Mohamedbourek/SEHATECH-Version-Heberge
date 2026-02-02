@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "dev": "vite build --emptyOutDir",
-    "build": "vite build --emptyOutDir || exit 0",
+    "dev": "vite",
+    "build": "node node_modules/vite/bin/vite.js build",
     "preview": "vite preview",
     "lint": "eslint . --ext .vue,.js --fix --ignore-path .gitignore"
   },
