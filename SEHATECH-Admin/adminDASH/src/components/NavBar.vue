@@ -6,12 +6,12 @@
       <div class="flex items-center justify-between">
         <div class="flex items-center">
           <img 
-            src="@/assets/logo.svg"
+            src="@/assets/logo.png"
             alt="Logo"
             class="h-8 w-8"
           />
           <span class="ml-3 text-xl font-semibold text-gray-900 dark:text-white">
-            Smart Hospital
+            Admin Dashboard
           </span>
         </div>
         
