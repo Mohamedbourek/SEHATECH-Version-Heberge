@@ -384,6 +384,46 @@ const activitiesMeta = ref({
   to: 0
 })
 
+const displayedPages = computed(() => {
+  const current = activitiesMeta.value.current_page
+  const total = activitiesMeta.value.last_page
+  const delta = 1 // Number of pages to show around current page
+  
+  if (total <= 1) return [1]
+
+  const range = []
+  const rangeWithDots = []
+  let l
+
+  // Always show first page
+  range.push(1)
+
+  // Calculate range around current page
+  for (let i = current - delta; i <= current + delta; i++) {
+    if (i < total && i > 1) {
+      range.push(i)
+    }
+  }
+
+  // Always show last page
+  range.push(total)
+
+  // Add dots where needed
+  for (let i of range) {
+    if (l) {
+      if (i - l === 2) {
+        rangeWithDots.push(l + 1)
+      } else if (i - l !== 1) {
+        rangeWithDots.push('...')
+      }
+    }
+    rangeWithDots.push(i)
+    l = i
+  }
+
+  return rangeWithDots
+})
+
 const formatTimeAgo = (date) => {
   if (!date) return 'Date inconnue';
   
