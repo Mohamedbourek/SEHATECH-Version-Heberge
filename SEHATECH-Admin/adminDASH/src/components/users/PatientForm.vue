@@ -209,7 +209,7 @@ import { ref, computed, watch } from 'vue'
 import { Loader2, Camera, Upload, Printer, Save } from 'lucide-vue-next'
 import { useToast } from '@/composables/useToast'
 import { useUserStore } from '@/stores/user'
-import { useCardIdStore } from '@/stores/cardId'
+import { useCardIdStore } from '@/stores/cardID'
 import PatientCard from './PatientCard.vue'
 import BaseModal from '@/components/BaseModal.vue'
 
