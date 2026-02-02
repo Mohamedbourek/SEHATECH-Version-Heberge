@@ -96,51 +96,55 @@
               </div>
             </div>
             
-            <!-- Move pagination controls outside the v-for loop -->
-            <!-- Pagination controls -->
-            <div class="flex items-center justify-between border-t pt-3 mt-4">
-              <div class="text-xs text-muted-foreground">
-                Page {{ activitiesMeta?.current_page  }} sur {{ activitiesMeta?.last_page }}
-                ({{ activitiesMeta.from || 0 }}-{{ activitiesMeta.to || 0 }} sur {{ activitiesMeta.total || 0 }})
+            <!-- Unified Pagination -->
+            <div class="flex items-center justify-between border-t pt-4 mt-4">
+              <!-- Info text -->
+              <div class="hidden sm:block text-sm text-gray-500 dark:text-gray-400">
+                Affichage de <span class="font-medium">{{ activitiesMeta.from || 0 }}</span> à <span class="font-medium">{{ activitiesMeta.to || 0 }}</span> sur <span class="font-medium">{{ activitiesMeta.total || 0 }}</span> activités
               </div>
-              <div class="flex space-x-1">
+
+              <!-- Controls -->
+              <div class="flex items-center space-x-2">
                 <button 
                   @click="loadPreviousPage"
                   :disabled="activitiesMeta.current_page <= 1 || isLoadingActivities"
-                  class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+                  class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   title="Page précédente"
                 >
                   <ChevronLeft class="h-4 w-4" />
                 </button>
-                <div v-if="isLoadingActivities" class="px-2 py-1">
-                  <RefreshCw class="h-3 w-3 animate-spin" />
+
+                <div class="flex items-center space-x-1">
+                  <template v-for="(page, index) in displayedPages" :key="index">
+                    <span v-if="page === '...'" class="px-2 py-1 text-gray-400">...</span>
+                    <button 
+                      v-else
+                      @click="loadActivitiesPage(page)"
+                      :class="[
+                        'min-w-[32px] h-8 px-2 flex items-center justify-center text-sm rounded-md transition-colors',
+                        activitiesMeta.current_page === page 
+                          ? 'bg-blue-600 text-white font-medium shadow-sm' 
+                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                      ]"
+                    >
+                      {{ page }}
+                    </button>
+                  </template>
                 </div>
+
                 <button 
                   @click="loadNextPage"
                   :disabled="activitiesMeta.current_page >= activitiesMeta.last_page || isLoadingActivities"
-                  class="p-1 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50"
+                  class="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                   title="Page suivante"
                 >
                   <ChevronRight class="h-4 w-4" />
                 </button>
+                
+                <div v-if="isLoadingActivities" class="ml-2">
+                  <RefreshCw class="h-4 w-4 animate-spin text-blue-500" />
+                </div>
               </div>
-            </div>
-            
-            <!-- Add this new pagination with numbered pages -->
-            <div class="flex justify-center mt-3 space-x-1">
-              <button 
-                v-for="p in activitiesMeta.last_page" 
-                :key="p" 
-                @click="loadActivitiesPage(p)"
-                :class="[
-                  'px-2 py-1 text-xs rounded', 
-                  activitiesMeta.current_page === p 
-                    ? 'bg-blue-500 text-white' 
-                    : 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300'
-                ]"
-              >
-                {{ p }}
-              </button>
             </div>
           </div>
           <div v-else class="py-8 text-center">
