@@ -291,7 +291,7 @@ import ConfirmationModal from '@/components/ConfirmationModal.vue'
 import TechnicianFormModal from '@/components/users/TechnicianFormModal.vue'
 import PatientCard from '@/components/users/PatientCard.vue'
 import Papa from 'papaparse'
-import { useCardIdStore } from '@/stores/cardId'
+import { useCardIdStore } from '@/stores/cardID'
 
 const showCardModal = ref(false)
 const selectedPatient = ref(null)
