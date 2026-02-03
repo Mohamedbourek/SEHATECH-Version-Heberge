@@ -48,7 +48,7 @@
         </svg>
         Vite + Vue 3
       </span>
-      <span>Mettez à jour les URLs si vous déployez sur des domaines distincts.</span>
+     
     </footer>
   </div>
 </template>
