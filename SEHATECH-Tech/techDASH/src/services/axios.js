@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create a custom axios instance with default config
 const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8000/api', // Utilise la variable d'environnement
+  baseURL: import.meta.env.VITE_API_URL || 'https://sehatech-api.onrender.com/api', // Utilise la variable d'environnement
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json'
