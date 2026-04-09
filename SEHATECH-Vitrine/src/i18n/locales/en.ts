@@ -6,45 +6,46 @@ export default {
     features: "Solutions",
     team: "Team",
     contact: "Contact",
-    demo: "Test Demo"
+    demo: "Test Demo",
+    watch_video: "Watch Video"
   },
   hero: {
-    badge: "Digital Healthcare Innovation",
-    title: "Modernize your healthcare with",
-    subtitle: "An integrated software suite to connect doctors, administrators, and technicians around patient well-being.",
+    badge: "E-Health Revolution: Smart Hospital",
+    title: "Designing & Implementing Smart Systems",
+    subtitle: "SEHATECH transforms traditional management into intelligent hospital systems in Algeria, radically improving care quality and efficiency.",
     cta_primary: "Start Demo",
-    cta_secondary: "Discover Solutions"
+    cta_secondary: "IoT Solutions"
   },
   problem: {
-    title: "Current Healthcare System Challenges",
-    description: "Data fragmentation, lack of critical equipment tracking, and administrative overload hinder care efficiency.",
+    title: "Critical Challenges in Algerian Hospitals",
+    description: "In-depth analysis reveals major obstacles directly impacting care quality and patient safety.",
     stats: {
-      time: "of time lost by staff",
-      errors: "reduction in errors",
-      iot: "Continuous IoT Monitoring",
-      digital: "Secure Digitalization"
+      time: "cite insufficient monitoring",
+      errors: "point to slow transmission",
+      iot: "24/7 IoT Vital Monitoring",
+      digital: "Zero Paper, Zero Errors"
     }
   },
   apps: {
-    title: "A Complete Ecosystem",
-    subtitle: "Discover our solutions tailored to every healthcare profession.",
+    title: "A Global Technological Response",
+    subtitle: "Our ecosystem integrates medical IoT devices, digitized management, and instant alert systems.",
     admin: {
-      name: "Administrator Space",
-      desc: "Centralized management of the facility, human resources, and billing."
+      name: "Hospital Management",
+      desc: "Full digitalization of patient records, automatic scheduling, and integrated billing."
     },
     doctor: {
-      name: "Doctor Space",
-      desc: "Complete clinical follow-up, digital medical records, and prescriptions."
+      name: "Smart Medical Follow-up",
+      desc: "Real-time access to vital signs and clinical history on a secure interface."
     },
     tech: {
-      name: "Biomedical Technician",
-      desc: "Preventive and corrective maintenance of medical equipment via IoT."
+      name: "Maintenance & IoT",
+      desc: "Monitoring of biomedical equipment and environmental sensors (gas, smoke, humidity)."
     },
     nurse: {
-      name: "Nursing Team",
-      desc: "Mobile application for care monitoring and patient surveillance."
+      name: "Care Assistance",
+      desc: "Immediate task notifications and mobile tracking of critical parameters."
     },
-    open: "Open Space"
+    open: "Discover Solution"
   },
   team: {
     title: "The Founding Team",

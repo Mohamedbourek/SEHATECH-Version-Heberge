@@ -6,45 +6,46 @@ export default {
     features: "Solutions",
     team: "Équipe",
     contact: "Contact",
-    demo: "Tester Demo"
+    demo: "Tester Demo",
+    watch_video: "Voir la vidéo"
   },
   hero: {
-    badge: "L'Innovation Hospitalière Digitale",
-    title: "Modernisez votre santé avec",
-    subtitle: "Une suite logicielle intégrée pour connecter médecins, administrateurs et techniciens autour du bien-être des patients.",
-    cta_primary: "Commencer la démo",
-    cta_secondary: "Découvrir les solutions"
+    badge: "E-Health Révolution : Hôpital Intelligent",
+    title: "Conception et Implémentation d'un système",
+    subtitle: "SEHATECH transforme la gestion traditionnelle vers une gestion intelligente des hôpitaux algériens, améliorant radicalement la qualité et l'efficacité des soins.",
+    cta_primary: "Découvrir la démo",
+    cta_secondary: "Nos solutions IoT"
   },
   problem: {
-    title: "Les défis du système de santé actuel",
-    description: "La fragmentation des données, le manque de suivi des équipements critiques et la surcharge administrative freinent l'efficacité des soins.",
+    title: "Les défis critiques des hôpitaux algériens",
+    description: "Une analyse approfondie révèle des obstacles majeurs qui impactent directement la qualité des soins et la sécurité des patients.",
     stats: {
-      time: "de temps perdu par le personnel",
-      errors: "de réduction des erreurs",
-      iot: "Télésurveillance continue IoT",
-      digital: "Digitalisation sécurisée"
+      time: "citent une surveillance insuffisante",
+      errors: "pointent la lenteur de transmission",
+      iot: "Suivi vital IoT 24/7",
+      digital: "Zéro papier, zéro erreur"
     }
   },
   apps: {
-    title: "Un écosystème complet",
-    subtitle: "Découvrez nos solutions adaptées à chaque métier de la santé.",
+    title: "Une réponse technologique globale",
+    subtitle: "Notre écosystème intègre des dispositifs IoT médicaux, une gestion numérisée et un système d'alertes instantanées.",
     admin: {
-      name: "Espace Administrateur",
-      desc: "Gestion centralisée de l'établissement, ressources humaines et facturation."
+      name: "Gestion Hospitalière",
+      desc: "Digitalisation totale des dossiers patients, planification automatique et facturation intégrée."
     },
     doctor: {
-      name: "Espace Médecin",
-      desc: "Suivi clinique complet, dossiers médicaux et prescriptions numériques."
+      name: "Suivi Médical Smart",
+      desc: "Accès en temps réel aux constantes vitales et historique clinique sur interface sécurisée."
     },
     tech: {
-      name: "Technicien Biomédical",
-      desc: "Maintenance préventive et corrective du matériel médical via IoT."
+      name: "Maintenance & IoT",
+      desc: "Surveillance du parc biomédical et capteurs environnementaux (gaz, fumée, humidité)."
     },
     nurse: {
-      name: "Équipe Infirmière",
-      desc: "Application mobile pour le suivi des soins et surveillance patients."
+      name: "Aide aux Soins",
+      desc: "Notifications immédiates des tâches et suivi mobile des paramètres critiques."
     },
-    open: "Ouvrir l'Espace"
+    open: "Découvrir la solution"
   },
   team: {
     title: "L'Équipe Fondatrice",

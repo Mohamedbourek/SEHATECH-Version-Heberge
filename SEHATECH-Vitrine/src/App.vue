@@ -54,10 +54,34 @@ const navLinks = computed(() => [
 
 // Stats
 const stats = computed(() => [
-  { value: '40%', label: t('problem.stats.time'), icon: 'lucide:clock' },
-  { value: '30%', label: t('problem.stats.errors'), icon: 'lucide:shield-check' },
+  { value: '33.3%', label: t('problem.stats.time'), icon: 'lucide:eye-off' },
+  { value: '16.7%', label: t('problem.stats.errors'), icon: 'lucide:zap-off' },
   { value: '24/7', label: t('problem.stats.iot'), icon: 'lucide:activity' },
-  { value: '100%', label: t('problem.stats.digital'), icon: 'lucide:lock' },
+  { value: '100%', label: t('problem.stats.digital'), icon: 'lucide:shield-check' },
+])
+
+// Problems from Pitch
+const problems = computed(() => [
+  { 
+    title: 'Surveillance inefficace des patients', 
+    image: '/problems_pic/Problem1.png',
+    desc: 'Le manque de monitoring continu peut retarder les interventions critiques.'
+  },
+  { 
+    title: 'Gestion papier des dossiers', 
+    image: '/problems_pic/problem2.png',
+    desc: 'Les dossiers physiques ralentissent la transmission des informations vitales.'
+  },
+  { 
+    title: 'Processus administratifs lourds', 
+    image: '/problems_pic/problem3.png',
+    desc: 'La paperasse excessive réduit le temps consacré aux soins directs.'
+  },
+  { 
+    title: 'Manque de coordination', 
+    image: '/problems_pic/problem4.png',
+    desc: 'L\'absence d\'interconnexion entre services génère des erreurs de communication.'
+  }
 ])
 
 // Applications / Features
@@ -92,8 +116,56 @@ const apps = computed(() => [
   },
 ])
 
+// Live Previews for Hero
+const livePreviews = [
+  { name: 'Portal', url: 'https://sehatech-links.vercel.app/' },
+  { name: 'Admin', url: 'https://sehatech-admin.vercel.app/' },
+  { name: 'Médecin', url: 'https://sehatech-medecin.vercel.app/' },
+  { name: 'Technicien', url: 'https://sehatech-tech.vercel.app/' }
+]
+
+// Team
+const team = [
+  {
+    name: 'BOUREK Mohammed El Amine',
+    role: 'Ingénieur en Génie Logiciel',
+    image: '/Team_pic/bourek_pic.jpg',
+    github: 'https://github.com/Mohamedbourek',
+    linkedin: 'https://www.linkedin.com/in/mohammed-el-amine-bourek-902921225/'
+  },
+  {
+    name: 'BOUCHAOUR Mohammed Amine',
+    role: 'Ingénieur en Réseaux & Systèmes Distribués',
+    image: '/Team_pic/bouchaour_pic.png',
+    github: 'https://github.com/Aminh0o',
+    linkedin: 'https://www.linkedin.com/in/amine-mohammed-bouchaour-aa29ab2b8/'
+  }
+]
+
 const isMenuOpen = ref(false)
 const isLangOpen = ref(false)
+const isVideoModalOpen = ref(false)
+const showHeroVideo = ref(false) // New state for direct play in hero
+const isVideoLoading = ref(true) // Loading state for the iframe
+let loadingTimeout: any = null
+
+const handleVideoLoad = () => {
+  if (loadingTimeout) clearTimeout(loadingTimeout)
+  isVideoLoading.value = false
+}
+
+// Watch for reset and add a safety timeout
+watch(showHeroVideo, (newVal) => {
+  if (newVal) {
+    isVideoLoading.value = true
+    // Safety timeout: if it doesn't load in 8s, show it anyway
+    loadingTimeout = setTimeout(() => {
+      isVideoLoading.value = false
+    }, 8000)
+  } else {
+    if (loadingTimeout) clearTimeout(loadingTimeout)
+  }
+})
 
 onMounted(() => {
   // Init theme
@@ -240,9 +312,11 @@ onMounted(() => {
           <a href="https://sehatech-links.vercel.app/" target="_blank" class="btn-primary-sehatech text-lg px-8 py-4 shadow-xl shadow-primary-500/20">
             {{ t('hero.cta_primary') }}
           </a>
-          <a href="#features" class="px-8 py-4 text-lg font-semibold text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all">
-            {{ t('hero.cta_secondary') }}
-          </a>
+          <!-- Button updated to show video in hero -->
+          <button @click="showHeroVideo = true" class="px-8 py-4 text-lg font-semibold text-gray-900 dark:text-white bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2 group/video">
+            <Icon icon="lucide:play-circle" class="text-primary-500 text-2xl group-hover/video:scale-110 transition-transform" />
+            {{ t('nav.watch_video') }}
+          </button>
         </div>
 
         <!-- Dashboard Preview -->
@@ -256,11 +330,85 @@ onMounted(() => {
                   <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
                   <div class="w-3 h-3 rounded-full bg-green-400"></div>
                 </div>
-                <div class="mx-auto text-xs text-gray-400 font-medium">sehatech-dashboard.app</div>
+                <div class="mx-auto text-xs text-gray-400 font-medium">sehatech.com</div>
+                <!-- Close/Back button when video is showing -->
+                <button v-if="showHeroVideo" @click="showHeroVideo = false" class="text-xs font-bold text-gray-400 hover:text-red-500 flex items-center gap-1 transition-colors">
+                  <Icon icon="lucide:x" class="text-sm" />
+                  {{ locale === 'ar' ? 'رجوع' : locale === 'en' ? 'Back' : 'Retour' }}
+                </button>
               </div>
-              <div class="aspect-video bg-gray-100 dark:bg-gray-900 flex items-center justify-center relative">
-                <Icon icon="lucide:layout" class="text-9xl text-gray-300 dark:text-gray-700 opacity-50" />
-                <div class="absolute inset-0 bg-gradient-to-tr from-primary-500/5 to-transparent"></div>
+
+              <!-- Main Preview Area -->
+              <div class="aspect-video bg-gray-200 dark:bg-gray-900 relative overflow-hidden">
+                <!-- Transition for smoother swapping -->
+                <transition enter-active-class="transition duration-500 ease-out" enter-from-class="opacity-0 scale-95" enter-to-class="opacity-100 scale-100" leave-active-class="transition duration-300 ease-in" leave-from-class="opacity-100 scale-100" leave-to-class="opacity-0 scale-95">
+                  <!-- Case 1: Video Player -->
+                  <div v-if="showHeroVideo" class="absolute inset-0 bg-black flex items-center justify-center">
+                    <!-- Specific Video Loading Spinner with Link Fallback -->
+                    <div v-if="isVideoLoading" class="absolute inset-0 flex flex-col items-center justify-center bg-gray-900/50 backdrop-blur-md z-10 px-4 text-center">
+                      <div class="relative mb-4">
+                        <div class="w-16 h-16 border-4 border-primary-500/20 border-t-primary-500 rounded-full animate-spin"></div>
+                        <Icon icon="lucide:play" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary-500 text-xl" />
+                      </div>
+                      <span class="text-white text-sm font-medium animate-pulse">{{ locale === 'ar' ? 'جاري التحميل...' : locale === 'en' ? 'Loading Video...' : 'Chargement de la vidéo...' }}</span>
+                      
+                      <!-- Fallback Link if it takes too long -->
+                      <a 
+                        href="https://drive.google.com/file/d/1k6SZ3eNLvzMGqQ-nMFEHbFfTrG8I0csz/view?usp=sharing" 
+                        target="_blank" 
+                        class="mt-6 text-xs text-primary-400 hover:text-primary-300 underline underline-offset-4 opacity-70 hover:opacity-100 transition-all"
+                      >
+                        {{ locale === 'ar' ? 'اضغط هنا إذا لم يظهر الفيديو' : locale === 'en' ? 'Click here if video doesn\'t appear' : 'Cliquez ici si la vidéo ne s\'affiche pas' }}
+                      </a>
+                    </div>
+
+                    <iframe 
+                      src="https://drive.google.com/file/d/1k6SZ3eNLvzMGqQ-nMFEHbFfTrG8I0csz/preview"
+                      class="w-full h-full border-none transition-opacity duration-500"
+                      :class="isVideoLoading ? 'opacity-0' : 'opacity-100'"
+                      allow="autoplay; fullscreen"
+                      title="SEHATECH Presentation Video"
+                      @load="handleVideoLoad"
+                    ></iframe>
+                  </div>
+
+                  <!-- Case 2: Multiview Previews Grid -->
+                  <div v-else class="absolute inset-0 grid grid-cols-2 grid-rows-2 gap-2 p-2">
+                    <div v-for="preview in livePreviews" :key="preview.url" class="relative bg-white dark:bg-gray-800 overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm group/frame">
+                      <!-- Iframe Container with Scale for Better Visibility -->
+                      <div class="absolute inset-0 w-[200%] h-[200%] origin-top-left scale-[0.5] transition-transform duration-500 group-hover/frame:scale-[0.55]">
+                        <iframe 
+                          :src="preview.url" 
+                          class="w-full h-full border-none pointer-events-none"
+                          :title="preview.name"
+                          loading="lazy"
+                        ></iframe>
+                      </div>
+                      
+                      <!-- Hover Overlay -->
+                      <div class="absolute inset-0 bg-gray-900/0 group-hover/frame:bg-gray-900/40 backdrop-blur-[2px] transition-all duration-300 z-20 flex flex-col items-center justify-center gap-3">
+                        <div class="px-3 py-1 bg-primary-500 text-white text-[10px] font-bold rounded-full uppercase tracking-widest shadow-lg transform -translate-y-2 opacity-0 group-hover/frame:translate-y-0 group-hover/frame:opacity-100 transition-all duration-300">
+                          {{ preview.name }}
+                        </div>
+                        <a :href="preview.url" target="_blank" class="p-2 bg-white text-gray-900 rounded-full shadow-xl scale-0 group-hover/frame:scale-100 transition-transform duration-300 hover:bg-primary-50">
+                          <Icon icon="lucide:external-link" class="text-sm" />
+                        </a>
+                      </div>
+
+                      <!-- Fallback Loading -->
+                      <div class="absolute inset-0 flex items-center justify-center -z-10">
+                        <Icon icon="lucide:loader-2" class="text-2xl text-primary-500 animate-spin opacity-20" />
+                      </div>
+                    </div>
+                    
+                    <!-- Direct Play Overlay in middle (Optional, adds "Direct Play" feel) -->
+                    <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-30">
+                      <button @click.stop="showHeroVideo = true" class="pointer-events-auto w-16 h-16 bg-white/90 dark:bg-gray-800/90 rounded-full shadow-2xl flex items-center justify-center group/play hover:scale-110 transition-all border border-gray-200 dark:border-gray-700">
+                        <Icon icon="lucide:play" class="text-primary-500 text-2xl group-hover/play:text-primary-600 ml-1" />
+                      </button>
+                    </div>
+                  </div>
+                </transition>
               </div>
             </div>
           </div>
@@ -269,28 +417,44 @@ onMounted(() => {
     </section>
 
     <!-- Problem Section -->
-    <section id="problem" class="py-24 bg-white dark:bg-gray-900 transition-colors reveal">
+    <section id="problem" class="py-24 bg-white dark:bg-gray-900 transition-colors">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="grid lg:grid-cols-2 gap-16 items-center">
-          <div>
-            <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-8 tracking-tight">
-              {{ t('problem.title') }}
-            </h2>
-            <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
-              {{ t('problem.description') }}
-            </p>
-            <div class="grid sm:grid-cols-2 gap-6">
-              <div v-for="stat in stats" :key="stat.label" class="p-6 bg-gray-50 dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 hover:border-primary-500 transition-all group text-start">
-                <Icon :icon="stat.icon" class="text-3xl text-primary-500 mb-4 group-hover:scale-110 transition-transform" />
-                <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stat.value }}</div>
-                <div class="text-sm text-gray-500 dark:text-gray-400">{{ stat.label }}</div>
+        <div class="text-center mb-16 reveal">
+          <h2 class="text-3xl md:text-5xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">
+            {{ t('problem.title') }}
+          </h2>
+          <p class="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+            {{ t('problem.description') }}
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+          <div v-for="(p, idx) in problems" :key="p.title" class="reveal group bg-gray-50 dark:bg-gray-800 rounded-3xl overflow-hidden border border-gray-100 dark:border-gray-700 hover:shadow-2xl transition-all duration-500" :style="`transition-delay: ${idx * 100}ms`">
+            <div class="aspect-[4/3] overflow-hidden relative">
+              <img :src="p.image" :alt="p.title" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+              <div class="absolute inset-0 bg-gradient-to-t from-gray-900/80 to-transparent flex items-end p-6">
+                <h3 class="text-white font-bold leading-tight">{{ p.title }}</h3>
               </div>
             </div>
+            <div class="p-6">
+              <p class="text-sm text-gray-600 dark:text-gray-400">{{ p.desc }}</p>
+            </div>
           </div>
-          <div class="relative lg:order-last">
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-16 items-center reveal">
+          <div class="grid sm:grid-cols-2 gap-6">
+            <div v-for="stat in stats" :key="stat.label" class="p-6 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-soft hover:border-primary-500 transition-all group text-start">
+              <Icon :icon="stat.icon" class="text-3xl text-primary-500 mb-4 group-hover:scale-110 transition-transform" />
+              <div class="text-3xl font-bold text-gray-900 dark:text-white mb-1">{{ stat.value }}</div>
+              <div class="text-sm text-gray-500 dark:text-gray-400 leading-tight">{{ stat.label }}</div>
+            </div>
+          </div>
+          <div class="relative">
             <div class="bg-primary-500 rounded-[2.5rem] p-1 shadow-2xl shadow-primary-500/20">
-              <div class="bg-gray-900 rounded-[2.3rem] overflow-hidden aspect-square flex items-center justify-center">
-                <Icon icon="lucide:stethoscope" class="text-9xl text-primary-500/20 animate-pulse-slow" />
+              <div class="bg-gray-900 rounded-[2.3rem] overflow-hidden aspect-square flex items-center justify-center relative">
+                <!-- Illustration from Pitch Deck -->
+                <img src="/src/assets/images/problem-img.png" alt="Hospital Problem Illustration" class="absolute inset-0 w-full h-full object-cover opacity-60 z-10" />
               </div>
             </div>
           </div>
@@ -336,17 +500,19 @@ onMounted(() => {
           <p class="text-lg text-gray-600 dark:text-gray-400">{{ t('team.subtitle') }}</p>
         </div>
         
-        <div class="flex justify-center">
-          <div class="max-w-md w-full bg-gray-50 dark:bg-gray-800 p-10 rounded-[3rem] border border-gray-100 dark:border-gray-700 text-center shadow-soft">
+        <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          <div v-for="member in team" :key="member.name" class="bg-gray-50 dark:bg-gray-800 p-10 rounded-[3rem] border border-gray-100 dark:border-gray-700 text-center shadow-soft hover:shadow-xl transition-all duration-300">
             <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-primary-500/10 flex items-center justify-center border-4 border-white dark:border-gray-700 shadow-xl overflow-hidden">
-               <img src="/src/assets/images/logo.png" alt="Founder" class="w-full h-full object-contain p-4" />
+               <img :src="member.image" :alt="member.name" class="w-full h-full object-cover" />
             </div>
-            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">Fondateur SEHATECH</h3>
-            <p class="text-primary-500 font-semibold mb-6">{{ t('team.role') }}</p>
-            <p class="text-gray-600 dark:text-gray-400 italic mb-8">"{{ t('team.quote') }}"</p>
+            <h3 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">{{ member.name }}</h3>
+            <p class="text-primary-500 font-semibold mb-6">{{ member.role }}</p>
             <div class="flex justify-center gap-4">
-              <a v-for="social in ['linkedin', 'twitter', 'github']" :key="social" href="#" class="w-12 h-12 rounded-2xl bg-white dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-primary-500 hover:shadow-lg transition-all">
-                <Icon :icon="`lucide:${social}`" class="text-xl" />
+              <a v-if="member.linkedin" :href="member.linkedin" target="_blank" class="w-12 h-12 rounded-2xl bg-white dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-primary-500 hover:shadow-lg transition-all">
+                <Icon icon="lucide:linkedin" class="text-xl" />
+              </a>
+              <a v-if="member.github" :href="member.github" target="_blank" class="w-12 h-12 rounded-2xl bg-white dark:bg-gray-900 flex items-center justify-center text-gray-400 hover:text-primary-500 hover:shadow-lg transition-all">
+                <Icon icon="lucide:github" class="text-xl" />
               </a>
             </div>
           </div>
@@ -404,6 +570,35 @@ onMounted(() => {
         </div>
       </div>
     </footer>
+
+    <!-- Video Modal -->
+    <transition
+      enter-active-class="transition duration-300 ease-out"
+      enter-from-class="opacity-0"
+      enter-to-class="opacity-100"
+      leave-active-class="transition duration-200 ease-in"
+      leave-from-class="opacity-100"
+      leave-to-class="opacity-0"
+    >
+      <div v-if="isVideoModalOpen" class="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 lg:p-8">
+        <!-- Backdrop -->
+        <div @click="isVideoModalOpen = false" class="absolute inset-0 bg-gray-900/90 backdrop-blur-sm"></div>
+        
+        <!-- Modal Content -->
+        <div class="relative w-full max-w-5xl bg-black rounded-[2rem] overflow-hidden shadow-2xl border border-white/10 aspect-video">
+          <button @click="isVideoModalOpen = false" class="absolute top-4 right-4 z-50 p-2 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors">
+            <Icon icon="lucide:x" class="text-2xl" />
+          </button>
+          
+          <iframe
+            src="https://drive.google.com/file/d/1k6SZ3eNLvzMGqQ-nMFEHbFfTrG8I0csz/preview?autoplay=1"
+            class="w-full h-full border-none"
+            allow="autoplay; fullscreen"
+            title="SEHATECH Presentation Video"
+          ></iframe>
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
